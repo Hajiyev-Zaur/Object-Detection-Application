@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Object Detection Application</h1>
+        </header>
+
+        <section class="upload-section">
+            <h2>Upload an Image</h2>
+            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                <label for="image-input">Choose an Image</label>
+                <input type="file" name="file" id="image-input" accept="image/*" required>
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+
+        <section class="upload-section">
+            <h2>Upload a Video</h2>
+            <form id="upload-video-form" action="/upload" method="post" enctype="multipart/form-data">
+                <label for="video-input">Choose a Video</label>
+                <input type="file" name="file" id="video-input" accept="video/*" required>
+                <button type="submit">Upload Video</button>
+            </form>
+        </section>
+
+        <section class="result-section">
+            <h2>Detection Results</h2>
+
+            {% if result_image %}
+                <div class="result-container">
+                    <img src="{{ result_image }}" alt="Detected Image">
+                </div>
+            {% endif %}
+
+            {% if result_video %}
+             <div class="result-container">
+        <p>Processed Video Available: <a href="{{ result_video }}" target="_blank">View Output</a></p>
+             </div>
+            {% endif %}
+
+        </section>
+    </div>
+</body>
+
+<script>
+    document.getElementById('upload-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+
+            const resultSection = document.querySelector('.result-section');
+            resultSection.innerHTML = `
+                <h2>Detection Results</h2>
+                <div class="result-container">
+                    <img src="${url}" alt="Detected Image">
+                </div>`;
+        } else {
+            alert("An error occurred while uploading the image.");
+        }
+    });
+
+    document.getElementById('upload-video-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+
+            
+
+        } else {
+            alert("An error occurred while uploading the video.");
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,17 @@
+
+**Important Information**
+Dataset
+For this project, we used the COCO Dataset. Follow these steps to download and prepare the dataset:
+
+Steps to Download the Dataset
+Open Anaconda Prompt.
+
+Run the following commands to download the dataset:
+   # Navigate to the 'data' directory inside your project folder
+cd path/to/object_detection/data
+
+# Download the COCO images (train2017)
+curl -O http://images.cocodataset.org/zips/train2017.zip
+
+# Download the COCO annotations
+curl -O http://images.cocodataset.org/annotations/annotations_trainval2017.zip
